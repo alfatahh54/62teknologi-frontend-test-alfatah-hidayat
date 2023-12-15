@@ -1,8 +1,9 @@
-import React, { Component, useCallback, useEffect, useState } from 'react';
+import React, { Component, useCallback, useEffect, useMemo, useState } from 'react';
 import BusinessRow from './BusinessRow';
 import axios from 'axios';
 import Pagination from './Pagination';
 import { useLocation } from 'react-router';
+import SearchBar from './SearchBar';
 // import axios from 'axios';
 const axiosController = new AbortController
 // const yelp = require('yelp-fusion')
@@ -10,17 +11,41 @@ const axiosController = new AbortController
 const BusinessList = (props) =>  {
   const [businessList, setBusinessList] = useState([])
   const [totalPage, setTotalPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [limit, setLimit] = useState(20)
+  const [term, setTerm] = useState('')
+  const [isLoading, setLoading] = useState(true)
+  console.log(limit);
   useEffect(()=> {
-    return () => getDataBusiness()
-  }, [])
-//   const query = useLocation()
-//   console.log(query.key);
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get('page'));
+    console.log("dasda", limit);
+     if (isLoading) {
+        getDataBusiness()
+     } else {
+        setLoading(false)
+     }
+     return
+  }, [limit, term, currentPage])
+
+  const setPage = (page) => {
+    setCurrentPage(page)
+    setLoading(true)
+  }
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setTerm(event.target[0].value);
+    setPage(1)
+    setLoading(true)
+  }
+  const handleChangeLimit = (event) => {
+    event.preventDefault()
+    setLimit(parseInt(event.target.value));
+    setPage(1)
+    setLoading(true)
+  }
   const getDataBusiness = useCallback( async () => {
         const url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search"
         // const url = "https://swapi.dev/api/people"
+        console.log({limit});
         let config = {
             // signal: axiosController.signal,
             headers: { 
@@ -31,29 +56,43 @@ const BusinessList = (props) =>  {
                // "Access-Control-Allow-Origin": "*",
             },
             params: {
-                term: "restaurant",
+                term: term,
                 location: "nyc",
                 sort_by: "best_match",
-                limit: 20,
-                offset: page
+                limit: limit,
+                offset: (currentPage - 1) * limit
             }
         }
         try {
             const response = await axios.get(url, config)
-            setTotalPage(response.data.total || 1)
+            setTotalPage(response.data.total/20 || 1)
             setBusinessList(response.data.businesses || [])
+            setLoading(false)
         } catch (error) {
             console.log({error});
+            setLoading(false)
         }
-    })
+    }, [limit, term, currentPage])
     return (
         <div className="container main-content">
+        <SearchBar handleSubmit={handleSubmit}/>
+            <div className='limitRow'>
+                <div className='limitLabel'>
+                <label >Limit</label>
+                </div>
+               <select className='limitTerm' onChange={handleChangeLimit} value={limit}>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+               </select>
+            </div>
         {   
-            businessList.length > 0 ? businessList.map(business => {
+            isLoading ? <div>Loading....</div> : !isLoading && businessList.length > 0 ? businessList.map(business => {
             return <BusinessRow data={business} />
             }) : <></>
         }
-        <Pagination totalPage={totalPage} currentPage={page || 1}/>
+        <Pagination setPage={setPage}  totalPage={totalPage * limit > 1000 ? Math.ceil(1000/limit) : totalPage} currentPage={currentPage || 1}/>
         </div>
     );
 

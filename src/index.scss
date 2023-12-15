@@ -166,8 +166,58 @@ html {
     text-decoration: none;
     @include hoverNotActive;
     &.active{
-      background-color: #4CAF50;
+      background-color: $accent-color;
       color: white;
     }
   }
+}
+
+.search {
+  width: 40%;
+  position: relative;
+  margin-bottom: 2rem;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid $accent-color;
+  border-right: none;
+  padding: 5px;
+  height: 33px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+}
+.limitRow{
+    display: flex;
+    flex-direction: row;
+}
+.limitLabel {
+    color: white;
+    background-color: $accent-color;
+    border-radius: 5px 0 0 5px;
+    padding: 7px 7px 5px 5px;
+    font-size: 12px;
+}
+.limitTerm {
+    height: 33px;
+    border: 3px solid $accent-color;
+    border-radius: 0 5px 5px 0;
+}
+
+.searchTerm:focus{
+  color: black;
+}
+
+.searchButton {
+  width: 40px;
+  height: 33px;
+  border: 1px solid $accent-color;
+  background: $accent-color;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
 }
