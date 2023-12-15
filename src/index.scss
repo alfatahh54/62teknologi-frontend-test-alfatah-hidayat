@@ -175,8 +175,8 @@ html {
 .search {
   width: 40%;
   position: relative;
-  margin-bottom: 2rem;
   display: flex;
+  margin-bottom: .5rem;
 }
 
 .searchTerm {
@@ -192,6 +192,7 @@ html {
 .limitRow{
     display: flex;
     flex-direction: row;
+    margin-bottom: 2rem;
 }
 .limitLabel {
     color: white;
