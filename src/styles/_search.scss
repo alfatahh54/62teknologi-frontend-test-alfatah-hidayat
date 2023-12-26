@@ -1,0 +1,35 @@
+@use 'variable' as v;
+
+.search {
+  width: 40%;
+  position: relative;
+  display: flex;
+  margin-bottom: .5rem;
+  
+  &__term {
+    width: 100%;
+    border: 3px solid v.$accent-color;
+    border-right: none;
+    padding: 5px;
+    height: 48px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;  
+
+    &:focus{
+        color: black;
+    }
+  }
+
+  &__button {
+    width: 56px;
+    height: 48px;
+    border: 1px solid v.$accent-color;
+    background: v.$accent-color;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,60 @@
+@use 'variable' as v;
+@import 'mixin';
+.BusinessInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0 2rem;
+    margin-bottom: 1rem;
+    @include border;
+    @include hoverBox;
+    width: 70%;
+    max-height: 50rem;
+    position: relative;
+  
+    &__img{
+        display: block;
+        width: 20%;
+        height: auto;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        margin-right: 1rem;
+        object-fit: cover;
+        transition: filter .5s;
+    }
+    
+    &__contentInfo {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+
+        p {
+            margin: 0;
+        }
+
+        &__name{
+            margin: 1rem 0;
+            padding: 0;
+            @include hover;
+        }
+
+        &__para{
+            @include hover;
+            margin-bottom: 2rem;
+        }
+
+        &__icon {
+            margin-right: 1rem;
+        }
+
+        &__rating {
+            margin-top: 2rem;
+            color: #ffd505;
+        }
+
+        &__reviewCount {
+            margin-top: 1rem;
+            @include hover;
+        }
+    }
+}

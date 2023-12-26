@@ -1,0 +1,33 @@
+@use 'variable' as v;
+@mixin border {
+    box-shadow: 0 0 10px #6e6e6e1a;
+    // box-shadow: 0 0 0 2px $primary-color, inset 0 0 0 1px $primary-color;
+    // border-color: rgb(110, 50, 50);
+    border-radius: .5%;
+}
+
+@mixin centerFlex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin centerAb {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+@mixin hover {
+    &:hover{
+        color: v.$accent-color;
+    }
+}
+
+@mixin hoverBox {
+    &:hover{
+       box-shadow: 0 0 15px #0000001a;
+    }
+}
+    
